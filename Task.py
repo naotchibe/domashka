@@ -1,4 +1,4 @@
-from collections import defaultdict
+import pprint as pp
 
 students = [
     {
@@ -45,7 +45,7 @@ rooms = [
         'students': []
     },
     {
-        'igd': 2,
+        'id': 2,
         'name': 'Room #2',
         'students': []
     },
@@ -54,9 +54,10 @@ rooms = [
         'name': 'Room #42',
         'students': []
     }
-]
+] 
 room_dict={ x["id"]:x for x in rooms}
 for student in students:
     student_room = room_dict.get(student["room"])
     if student_room:
-        student_room["students"].append(student["id"])
+        student_room["students"].append({"id": student['id'], "name": student['name'] })
+pp.pprint(rooms)        
