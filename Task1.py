@@ -26,10 +26,10 @@ class XmlWriter(Writer):
 class Processsor():
     def __init__(self, writer: Writer):
         self.writer = writer    
+        self.reader = Reader()
     def process(self, rooms_fname, students_fname):
-        reader = Reader()
-        students = reader.read(students_fname)
-        rooms = reader.read(rooms_fname)
+        students = self.reader.read(students_fname)
+        rooms = self.reader.read(rooms_fname)
         room_dict = {x["id"]: x for x in rooms}
         for student in students:
             student_room = room_dict.get(student["room"])
