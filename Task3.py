@@ -1,26 +1,22 @@
 from threading import Thread, Lock
 
 lock = Lock()
-a = 0
 
-
-def function(arg):
-    global a
-    for _ in range(arg):
-        lock.acquire()
-        a += 1
-        lock.release()
-
+def function(numb, saver):
+    for _ in range(numb):
+        with lock:  
+            a = saver[0]
+            a += 1
+            saver[0]=a
 
 def main():
     threads = []
+    saver = [0, ]
     for i in range(5):
-        thread = Thread(target=function, args=(1000000,))
+        thread = Thread(target=function, args=(1000000, saver))
         thread.start()
         threads.append(thread)
 
     [t.join() for t in threads]
-    print("----------------------", a)  
-
-
+    print("----------------------", saver[0] )  
 main()
