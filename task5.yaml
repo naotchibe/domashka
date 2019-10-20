@@ -1,0 +1,358 @@
+swagger: "2.0"
+info:
+  version: "1.0.0"
+  title: "Swagger API Documentation Mila"
+basePath: "/v2"
+tags:
+- name: "room"
+  description: "Working with rooms"
+  externalDocs:
+    description: "Find out more"
+    url: "http://swagger.io"
+- name: "student"
+  description: "Working with students"
+schemes:
+- "https"
+- "http"
+paths:
+  /room/{roomId}:
+    put:
+      tags:
+      - "room"
+      summary: "Update an existing room"
+      description: ""
+      operationId: "updateRoom"
+      consumes:
+      - "application/json"
+      - "application/xml"
+      produces:
+      - "application/xml"
+      - "application/json"
+      parameters:
+      - name: "roomId"
+        in: "path"
+        description: "ID of Room"
+        required: true
+        type: "integer"
+        format: "int64"
+      - in: "body"
+        name: "body"
+        required: true
+        schema:
+          $ref: "#/definitions/Room"
+      responses:
+        400:
+          description: "Invalid ID supplied"
+        404:
+          description: "Room not found"
+        204:
+          description: "Room updated"
+          
+    get:
+      tags:
+      - "room"
+      summary: "Get an existing room"
+      produces:
+      - "application/xml"
+      - "application/json"
+      parameters:
+      - name: "roomId"
+        in: "path"
+        description: "ID of Room"
+        required: true
+        type: "integer"
+        format: "int64"
+      responses:
+        200:
+          description: "Item returned"
+          schema:
+            $ref: "#/definitions/Room"
+        404:
+          description: "Item with this id wasn't found"
+          
+    delete:
+      tags:
+      - "room"
+      summary: "Deletes a room"
+      description: ""
+      produces:
+      - "application/xml"
+      - "application/json"
+      parameters:
+      - name: "roomId"
+        in: "path"
+        description: "ID of Room"
+        required: true
+        type: "integer"
+        format: "int64"
+      responses:
+        204:
+          description: "Item deleted"
+        404:
+          description: "Item with this id wasn't found"
+  /room:
+    post:
+      tags:
+      - "room"
+      summary: "Add a new room"
+      description: ""
+      operationId: "addRoom"
+      consumes:
+      - "application/json"
+      - "application/xml"
+      produces:
+      - "application/xml"
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        required: true
+        schema:
+          $ref: "#/definitions/Room"
+      responses:
+        201:
+          description: "Room created"
+        400:
+          description: "Room with such id already exists"
+    get:
+      tags:
+      - "room"
+      summary: "Get an existing rooms"
+      produces:
+      - "application/xml"
+      - "application/json"
+      parameters:
+      - in: "query"
+        name: "pageNumber"
+        type: "integer"
+        description: "Number of page"
+      - in: "query"
+        name: "itemsOnPage"
+        type: "integer"
+        description: "Number of items on page"
+      - in: "query"
+        name: "sortBy"
+        type: "string"
+        description: "Sort by column"
+      - in: "query"
+        name: "orderBy"
+        type: "string"
+        description: "Order of the sorting"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Room"
+              
+  /student/{studentId}:
+    put:
+      tags:
+      - "student"
+      summary: "Update an existing student"
+      description: ""
+      consumes:
+      - "application/json"
+      - "application/xml"
+      produces:
+      - "application/xml"
+      - "application/json"
+      parameters:
+      - name: "studentId"
+        in: "path"
+        description: "ID of Student"
+        required: true
+        type: "integer"
+        format: "int64"
+      - in: "body"
+        name: "body"
+        required: true
+        schema:
+          $ref: "#/definitions/Student"
+      responses:
+        400:
+          description: "Invalid ID supplied"
+        404:
+          description: "Student not found"
+        204:
+          description: "Room updated"
+          
+    get:
+      tags:
+      - "student"
+      summary: "Get an existing student"
+      produces:
+      - "application/xml"
+      - "application/json"
+      parameters:
+      - name: "studentId"
+        in: "path"
+        description: "ID of Student"
+        required: true
+        type: "integer"
+        format: "int64"
+      responses:
+        200:
+          description: "Item returned"
+          schema:
+            $ref: "#/definitions/Student"
+        404:
+          description: "Student not found"
+          
+    delete:
+      tags:
+      - "student"
+      summary: "Deletes a student"
+      description: ""
+      produces:
+      - "application/xml"
+      - "application/json"
+      parameters:
+      - name: "studentId"
+        in: "path"
+        description: "ID of Student"
+        required: true
+        type: "integer"
+        format: "int64"
+      responses:
+        204:
+          description: "Item deleted"
+  /student:
+    post:
+      tags:
+      - "student"
+      summary: "Add a new student"
+      description: ""
+      consumes:
+      - "application/json"
+      - "application/xml"
+      produces:
+      - "application/xml"
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        required: true
+        schema:
+          $ref: "#/definitions/Room"
+      responses:
+        201:
+          description: "Student created"
+        400:
+          description: "Student with such id already exists"
+    get:
+      tags:
+      - "student"
+      summary: "Get all students"
+      produces:
+      - "application/xml"
+      - "application/json"
+      parameters:
+      - in: "query"
+        name: "pageNumber"
+        type: "integer"
+        description: "Number of page"
+      - in: "query"
+        name: "itemsOnPage"
+        type: "integer"
+        description: "Number of items on page"
+      - in: "query"
+        name: "sortBy"
+        type: "string"
+        description: "Sort by column"
+      - in: "query"
+        name: "orderBy"
+        type: "string"
+        description: "Order of the sorting"
+      - in: "query"
+        name: "sex"
+        type: "string"
+        description: "Sex type for filtration"
+      responses:
+        200:
+          description: "All students returned"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Student"
+        400:
+          description: "Query parameters are incorrect"
+  /room/{roomId}/student:
+    get:
+      tags:
+      - "student"
+      summary: "Get students of room"
+      produces:
+      - "application/xml"
+      - "application/json"
+      parameters:
+      - name: "roomId"
+        in: "path"
+        description: "ID of Room"
+        required: true
+        type: "integer"
+        format: "int64"
+      - in: "query"
+        name: "pageNumber"
+        type: "integer"
+        description: "Number of page"
+      - in: "query"
+        name: "itemsOnPage"
+        type: "integer"
+        description: "Number of items on page"
+      - in: "query"
+        name: "sortBy"
+        type: "string"
+        description: "Sort by column"
+      - in: "query"
+        name: "orderBy"
+        type: "string"
+      - in: "query"
+        name: "sex"
+        type: "string"
+        description: "Sex type for filtration"
+      responses:
+        200:
+          description: "Students returned"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Student"
+        404:
+          description: "Room doesn't exists"
+        400:
+          description: "Query parameters are incorrect"
+definitions:
+  Student:
+    type: "object"
+    properties:
+      id:
+        type: "integer"
+        format: "int64"
+      name:
+        type: "string"
+        example: "Student #0"
+      birthday:
+        type: "string"
+        example: ""
+      sex:
+        type: "string"
+      roomId:
+        type: "integer"
+        format: "int64"
+    xml:
+      name: "Student"
+  Room:
+    type: "object"
+    required:
+    - "name"
+    properties:
+      id:
+        type: "integer"
+        format: "int64"
+      name:
+        type: "string"
+        example: "Room #0"
+    xml:
+      name: "Room"
