@@ -99,11 +99,8 @@ class MysqlWorker(DbWorker):
                     inner join students ST1 on RMS.id = ST1.room_id
                     inner join students ST2 on RMS.id = ST2.room_id
                     where ST1.sex != ST2.sex
-                    group by RMS.id;ELECT RMS.id, RMS.name FROM task4.rooms RMS
-            INNER JOIN task4.students ST1 ON RMS.id = ST1.room_id
-            INNER JOIN task4.students ST2 on RMS.id = ST2.room_id
-        WHERE ST1.sex != ST2.sex
-        GROUP BY RMS.id
+                    group by RMS.id;
+        
         """
         return self.__execute_select_request(query)
 
