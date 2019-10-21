@@ -235,7 +235,7 @@ paths:
         name: "body"
         required: true
         schema:
-          $ref: "#/definitions/Room"
+          $ref: "#/definitions/Student"
       responses:
         201:
           description: "Student created"
