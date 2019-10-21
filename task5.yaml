@@ -176,7 +176,7 @@ paths:
         404:
           description: "Student not found"
         204:
-          description: "Room updated"
+          description: "Student updated"
           
     get:
       tags:
