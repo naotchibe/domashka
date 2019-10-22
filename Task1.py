@@ -1,5 +1,5 @@
 import json
-import sys
+import argparse
 import dicttoxml
 
 class Reader():
@@ -40,9 +40,14 @@ class Processsor():
         self.writer.write("alex", rooms)       
 
 def main():
-    students_path = sys.argv[1]
-    room_path = sys.argv[2]
-    type_alex = sys.argv[3]
+    parser = argparse.ArgumentParser()
+    parser.add_argument("arg1")
+    parser.add_argument("arg2")
+    parser.add_argument("arg3")
+    args = parser.parse_args()
+    students_path = args.arg1
+    room_path = args.arg2
+    type_alex = args.arg3
     writer = JsonWriter() if type_alex == "json" else XmlWriter()
     pr = Processsor(writer)
     pr.process(room_path, students_path)
