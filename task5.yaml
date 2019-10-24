@@ -15,7 +15,7 @@ schemes:
 - "https"
 - "http"
 paths:
-  /room/{roomId}:
+  /rooms/{roomId}:
     put:
       tags:
       - "room"
@@ -41,8 +41,6 @@ paths:
         schema:
           $ref: "#/definitions/Room"
       responses:
-        400:
-          description: "Invalid ID supplied"
         404:
           description: "Room not found"
         204:
@@ -146,7 +144,7 @@ paths:
             items:
               $ref: "#/definitions/Room"
               
-  /student/{studentId}:
+  /students/{studentId}:
     put:
       tags:
       - "student"
@@ -278,7 +276,7 @@ paths:
               $ref: "#/definitions/Student"
         400:
           description: "Query parameters are incorrect"
-  /room/{roomId}/student:
+  /rooms/{roomId}/student:
     get:
       tags:
       - "student"
