@@ -2,19 +2,23 @@ import json
 import argparse
 import dicttoxml
 
-class Reader():
+
+class Reader:
     def read(self, file):
-        with open(file) as json_file: 
+        with open(file) as json_file:
             return json.load(json_file)
 
-class Writer():
+
+class Writer:
     def write(self, file, data):
         raise NotImplementedError
+
 
 class JsonWriter(Writer):
     def write(self, file, data):
         with open(file, 'w') as output:
             json.dump(data, output)
+
 
 class XmlWriter(Writer):
     def write(self, file, data):
@@ -23,10 +27,12 @@ class XmlWriter(Writer):
             decode = xml.decode()
             xml_file.write(decode)
 
-class Processsor():
+
+class Processsor:
     def __init__(self, writer: Writer):
-        self.writer = writer    
+        self.writer = writer
         self.reader = Reader()
+
     def process(self, rooms_fname, students_fname):
         students = self.reader.read(students_fname)
         rooms = self.reader.read(rooms_fname)
@@ -36,8 +42,10 @@ class Processsor():
             if student_room:
                 if "students" not in student_room.keys():
                     student_room["students"] = []
-                student_room["students"].append({"id": student['id'], "name": student['name']})
-        self.writer.write("alex", rooms)       
+                student_room["students"].append(
+                    {"id": student['id'], "name": student['name']})
+        self.writer.write("alex", rooms)
+
 
 def main():
     parser = argparse.ArgumentParser()
@@ -52,7 +60,6 @@ def main():
     pr = Processsor(writer)
     pr.process(room_path, students_path)
 
+
 if __name__ == '__main__':
     main()
-
-
