@@ -1,0 +1,6 @@
+
+env.
+.vscode
+.mypy_cache
+__pycache__
+.vscode\settings.json
