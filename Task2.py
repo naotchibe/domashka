@@ -1,3 +1,5 @@
+from packaging import version
+
 
 class Version:
     def __init__(self, version):
@@ -26,7 +28,7 @@ def main():
         assert Version("1.0.0") < Version("2.0.0")
         assert Version("1.0.0") < Version("1.42.0")
         assert Version("1.2.0") < Version("1.2.42")
-    #print(Version('1.3.42') == Version('42.3.1'))
+        print(Version('1.3.42') == Version('42.3.1'))
 
 
 if __name__ == "__main__":
