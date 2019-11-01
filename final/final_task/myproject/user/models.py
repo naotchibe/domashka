@@ -1,6 +1,28 @@
-from django.contrib.auth.models import AbstractUser
+from django.contrib.auth.models import AbstractUser, BaseUserManager
 from django.db import models
 from django import forms
+
+class CustomUserManager(BaseUserManager):
+
+    def create_user(self, email, password, first_name, last_name, role=None):
+        user = User(email=email, password=password, first_name=first_name, last_name=last_name)
+        if role is not None:
+            user.role = role
+        user.save(using=self._db)
+        return user
+
+    def create_superuser(self, email, password, first_name, last_name):
+
+        user = self.create_user(
+            email=email,
+            password=password,
+            first_name=first_name,
+            last_name=last_name,
+        )
+        user.admin = True
+        user.is_superuser = True
+        user.save(using=self._db)
+        return user
 
 
 class User(AbstractUser):
