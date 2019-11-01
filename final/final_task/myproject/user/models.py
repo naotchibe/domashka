@@ -1,8 +1,46 @@
+from django.contrib.auth.models import AbstractUser
 from django.db import models
+from django import forms
+
+
+class User(AbstractUser):
+    email = models.EmailField(unique=True, db_index=True)
+    username = models.CharField(max_length=25, blank=True, null=True)
+    EMAIL_FIELD = 'email'
+    USERNAME_FIELD = 'email'
+
+    first_name = models.CharField(max_length=255)
+    last_name = models.CharField(max_length=255)
+
+    TEACHER = 'teacher'
+    STUDENT = 'student'
+
+    USER_ROLES_CHOICES = (
+        (TEACHER, 'teacher'),
+        (STUDENT, 'student'),
+    )
+    role = models.CharField(max_length=255,
+                            choices=USER_ROLES_CHOICES,
+                            default=STUDENT,
+                            blank=True,
+                            null=True)
+
+    #courses = models.ManyToManyField(Course, related_name='user')
+
+    REQUIRED_FIELDS = ['password', 'first_name', 'last_name']
+
+    def get_full_name(self):
+        full_name = self.first_name + self.last_name
+        return full_name
+
+    def __str__(self):
+        return self.email
+
 
 class UserCreationForm(forms.ModelForm):
     password1 = forms.CharField(label='Password', widget=forms.PasswordInput)
-    password2 = forms.CharField(label='Password confirmation', widget=forms.PasswordInput)
+    password2 = forms.CharField(label='Password confirmation',
+                                widget=forms.PasswordInput)
 
     class Meta:
         model = User

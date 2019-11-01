@@ -2,7 +2,7 @@ import pymysql
 from contextlib import closing
 from pymysql.cursors import DictCursor
 import json
-import sys
+import argparse
 import dicttoxml
 
 
@@ -110,7 +110,8 @@ class MysqlWorker(DbWorker):
                 query = 'INSERT INTO students (student_id, student_name, birthday, sex, room_id) VALUES (%s, %s, %s, %s, %s)'
 
                 def value(n):
-                    return n["id"], n["name"], n["birthday"], n["sex"], n["room"]
+                    return n["id"], n["name"], n["birthday"], n["sex"], n[
+                        "room"]
 
                 values = map(value, students)
                 cursor.executemany(query, values)
@@ -123,6 +124,7 @@ class MysqlWorker(DbWorker):
 
                 def value(n):
                     return n["id"], n["name"]
+
                 values = map(value, rooms)
                 cursor.executemany(query, values)
                 conn.commit()
@@ -181,14 +183,12 @@ class MysqlWorker(DbWorker):
                 return cursor.fetchall()
 
     def __get_connection(self):
-        return pymysql.connect(
-            host='localhost',
-            user='root',
-            password='1111',
-            db='task4',
-            charset='utf8mb4',
-            cursorclass=DictCursor
-        )
+        return pymysql.connect(host='localhost',
+                               user='root',
+                               password='1111',
+                               db='task4',
+                               charset='utf8mb4',
+                               cursorclass=DictCursor)
 
     def __get_values(self, item):
         return item.values
@@ -210,18 +210,28 @@ class Processor():
         self.db_worker.create_indexes()
 
         results = {
-            "rooms_and_students": self.db_worker.get_rooms_and_students(),
-            "rooms_with_students_with_different_sex": self.db_worker.get_rooms_with_students_with_different_sex(),
-            "rooms_with_maximum_difference_in_students_age": self.db_worker.get_rooms_with_maximum_difference_in_students_age(),
-            "rooms_with_minimal_average_students_age": self.db_worker.get_rooms_with_minimal_average_students_age(),
+            "rooms_and_students":
+            self.db_worker.get_rooms_and_students(),
+            "rooms_with_students_with_different_sex":
+            self.db_worker.get_rooms_with_students_with_different_sex(),
+            "rooms_with_maximum_difference_in_students_age":
+            self.db_worker.get_rooms_with_maximum_difference_in_students_age(),
+            "rooms_with_minimal_average_students_age":
+            self.db_worker.get_rooms_with_minimal_average_students_age(),
         }
 
         self.writer.write("alex", results)
 
+
 def main():
-    students_path = sys.argv[1]
-    room_path = sys.argv[2]
-    type_alex = sys.argv[3]
+    parser = argparse.ArgumentParser()
+    parser.add_argument("arg1")
+    parser.add_argument("arg2")
+    parser.add_argument("arg3")
+    args = parser.parse_args()
+    students_path = args.arg1
+    room_path = args.arg2
+    type_alex = args.arg3
     writer = JsonWriter() if type_alex == "json" else XmlWriter()
     pr = Processor(writer, MysqlWorker())
     pr.process(room_path, students_path)
